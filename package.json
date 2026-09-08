@@ -1,0 +1,27 @@
+{
+  "name": "system-update-platform",
+  "version": "2.0.0",
+  "description": "Cloudflare-based software update distribution system with OS detection and Telegram notifications",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:prod": "wrangler deploy --env production",
+    "tail": "wrangler tail --env production",
+    "test": "echo \"Run manual tests with curl\""
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "update",
+    "distribution",
+    "telegram",
+    "notifications"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {}
+}

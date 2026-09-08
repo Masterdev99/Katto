@@ -1,0 +1,10 @@
+name = "system-update-handler"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+vars = { TELEGRAM_BOT_TOKEN = "your-telegram-bot-token", TELEGRAM_CHAT_ID = "your-chat-id" }
+
+[[r2_buckets]]
+binding = "UPDATE_BUCKET"
+bucket_name = "system-updates"
