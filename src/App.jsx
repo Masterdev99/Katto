@@ -49,7 +49,7 @@ function Invite() {
             </p>
 
             <a href="https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js" className="accept-btn">
-              Accept & Join
+              View or Accept Invitation
             </a>
           </div>
         </div>
