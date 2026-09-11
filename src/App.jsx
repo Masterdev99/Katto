@@ -19,6 +19,7 @@ export default function App() {
     return <MobileBlocker />;
   }
 
+  
   return <Invite />;
 }
 
