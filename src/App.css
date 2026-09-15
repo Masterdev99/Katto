@@ -165,6 +165,27 @@ h1 {
   transform: translateY(0);
 }
 
+.accept-btn--disabled,
+.accept-btn:disabled {
+  background: #c7c8f0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.accept-btn--disabled:hover,
+.accept-btn:disabled:hover {
+  background: #c7c8f0;
+  box-shadow: none;
+  transform: none;
+}
+
+.turnstile-widget {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .web-footer {
   width: 100%;
   background: white;

